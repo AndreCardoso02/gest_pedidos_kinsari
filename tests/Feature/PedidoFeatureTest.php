@@ -39,4 +39,37 @@ class PedidoFeatureTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Sem pedidos encontrados');
     }
+
+    /**
+     * Testando se utilizadores autenticados conseguem aceder
+     * a rota de pedidos e visualizar os pedidos.
+     *
+     * @return void
+     */
+    public function test_utilizador_autenticado_consegue_aceder_a_rota_pedidos_e_visualizar_pedidos() {
+        // Arrange
+        $aprovador = User::factory()->create();
+        $solicitante = User::factory()->create();
+        $grupo = Grupo::factory()->create([
+            'nome' => 'Grupo 1',
+            'saldoPermitido' => 1000,
+            'aprovador_id' => $aprovador->id
+        ]);
+
+        $pedidos = Pedido::factory()->create([
+            'total' => 100,
+            'status' => 'novo',
+            'dataCriacao' => now(),
+            'dataAtualizacao' => now(),
+            'solicitante_id' => $solicitante->id,
+            'grupo_id' => $grupo->id
+        ]);
+
+        // Action
+        $response = $this->actingAs($user)->get('/pedidos');
+        // Assert
+        $response->assertStatus(200);
+        $response->assertDontSee('Sem pedidos encontrados');
+        $response->assertSee('Grupo 1');
+    }
 }
