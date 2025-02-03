@@ -1,6 +1,7 @@
 <div>
     <h1>Pedidos</h1>
     <h3>Lista de todos os pedidos</h3>
+
     <div>
         <div class="not-prose isolate">
             <div class="overflow-x-auto">
