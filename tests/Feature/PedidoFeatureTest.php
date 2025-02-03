@@ -3,13 +3,24 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Domain\Models\User;
+use App\Domain\Models\{
+    User,
+    Grupo,
+    Pedido
+};
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PedidoFeatureTest extends TestCase
 {
+    // Configuracoes base para os testes
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->artisan('migrate:fresh');
+    }
+
     /**
      * Testando se utilizadores nao autenticados consegues aceder
      * a rota de pedidos, e redirecionado para o login.
@@ -48,28 +59,22 @@ class PedidoFeatureTest extends TestCase
      */
     public function test_utilizador_autenticado_consegue_aceder_a_rota_pedidos_e_visualizar_pedidos() {
         // Arrange
-        $aprovador = User::factory()->create();
         $solicitante = User::factory()->create();
-        $grupo = Grupo::factory()->create([
-            'nome' => 'Grupo 1',
-            'saldoPermitido' => 1000,
-            'aprovador_id' => $aprovador->id
-        ]);
+        $grupo = Grupo::factory()->create();
 
-        $pedidos = Pedido::factory()->create([
+        $pedidos = Pedido::create([
             'total' => 100,
-            'status' => 'novo',
-            'dataCriacao' => now(),
-            'dataAtualizacao' => now(),
+            'data_criacao' => now(),
+            'data_atualizacao' => now(),
             'solicitante_id' => $solicitante->id,
             'grupo_id' => $grupo->id
         ]);
 
         // Action
-        $response = $this->actingAs($user)->get('/pedidos');
+        $response = $this->actingAs($solicitante)->get('/pedidos');
         // Assert
         $response->assertStatus(200);
         $response->assertDontSee('Sem pedidos encontrados');
-        $response->assertSee('Grupo 1');
+        $response->assertSee($grupo->nome);
     }
 }
