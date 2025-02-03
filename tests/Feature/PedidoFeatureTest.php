@@ -21,4 +21,19 @@ class PedidoFeatureTest extends TestCase
         // Assert
         $response->assertRedirect('/login');
     }
+
+    /**
+     * Testando se utilizadores autenticados conseguem aceder
+     * a rota de pedidos.
+     *
+     * @return void
+     */
+    public function test_utilizador_autenticado_consegue_aceder_a_rota_pedidos() {
+        // Arrange
+        $user = \App\Models\User::factory()->create();
+        // Action
+        $response = $this->actingAs($user)->get('/pedidos');
+        // Assert
+        $response->assertStatus(200);
+    }
 }
