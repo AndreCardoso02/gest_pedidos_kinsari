@@ -18,6 +18,6 @@ Route::view('profile', 'profile')
 require __DIR__.'/auth.php';
 
 // -------------------- ROTAS DE PEDIDOS --------------------
-Route::view('/pedidos', [PedidoController::class, 'index'])
+Route::get('/pedidos', [PedidoController::class, 'index'])
     ->middleware(['auth'])
     ->name('pedidos.index');

@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Domain\Models\User;
+use Database\Factories\UserFactory;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PedidoFeatureTest extends TestCase
 {
@@ -30,10 +32,11 @@ class PedidoFeatureTest extends TestCase
      */
     public function test_utilizador_autenticado_consegue_aceder_a_rota_pedidos() {
         // Arrange
-        $user = \App\Domain\Models\User::factory()->create();
+        $user = User::factory()->create();
         // Action
         $response = $this->actingAs($user)->get('/pedidos');
         // Assert
         $response->assertStatus(200);
+        $response->assertSee('Sem pedidos encontrados');
     }
 }
