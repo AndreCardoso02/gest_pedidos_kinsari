@@ -30,7 +30,7 @@ class PedidoFeatureTest extends TestCase
      */
     public function test_utilizador_autenticado_consegue_aceder_a_rota_pedidos() {
         // Arrange
-        $user = \App\Models\User::factory()->create();
+        $user = \App\Domain\Models\User::factory()->create();
         // Action
         $response = $this->actingAs($user)->get('/pedidos');
         // Assert
