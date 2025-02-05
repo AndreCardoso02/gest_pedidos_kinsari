@@ -4,7 +4,7 @@ namespace App\UseCases\Pedido;
 
 use App\Domain\Interfaces\IPedidoRepository;
 
-class RemoverPedidoPorIdUseCase
+class RemoverPedidoUseCase
 {
     protected IPedidoRepository $pedidoRepository;
 

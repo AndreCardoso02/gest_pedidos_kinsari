@@ -27,7 +27,7 @@ class GrupoController extends Controller
      */
     public function show(string $id)
     {
-        return view('grupo.show');
+        return view('grupo.show', compact('id'));
     }
 
     /**
@@ -35,6 +35,6 @@ class GrupoController extends Controller
      */
     public function edit(string $id)
     {
-        return view('grupo.edit');
+        return view('grupo.edit', compact('id'));
     }
 }

@@ -8,7 +8,6 @@ use App\UseCases\Pedido\ListarPedidoUseCase;
 class Listagem extends Component
 {
     public $pedidos;
-
     private $listarUseCase;
 
     public function boot(ListarPedidoUseCase $usecase) {

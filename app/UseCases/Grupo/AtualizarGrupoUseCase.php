@@ -15,6 +15,6 @@ class AtualizarGrupoUseCase
 
     public function execute(int $id, array $data)
     {
-        return $this->grupoRepository->atualizar($id, $data);
+        return $this->grupoRepository->atualizar($data, $id);
     }
 }

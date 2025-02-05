@@ -10,7 +10,7 @@ class GrupoRepository extends GenericoRepository implements IGrupoRepository
     // Listar
     public function listar()
     {
-        return Grupo::all();
+        return Grupo::query()->with(['aprovador'])->get();
     }
 
     // Buscar por Id

@@ -4,7 +4,7 @@ namespace App\UseCases\Material;
 
 use App\Domain\Interfaces\IMaterialRepository;
 
-class RemoverMaterialPorIdUseCase
+class RemoverMaterialUseCase
 {
     protected IMaterialRepository $materialRepository;
 

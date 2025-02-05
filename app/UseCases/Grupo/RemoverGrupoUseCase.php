@@ -4,7 +4,7 @@ namespace App\UseCases\Grupo;
 
 use App\Domain\Interfaces\IGrupoRepository;
 
-class RemoverGrupoPorIdUseCase
+class RemoverGrupoUseCase
 {
     protected IGrupoRepository $grupoRepository;
 

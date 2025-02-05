@@ -34,12 +34,28 @@ new class extends Component {
                     </x-nav-link>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('pedidos')" wire:navigate>
-                        {{ __('Pedidos') }}
-                    </x-nav-link>
-                </div>
+                @if (auth()->user()->isSolicitante() || auth()->user()->isAprovador())
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('pedidos')" wire:navigate>
+                            {{ __('Pedidos') }}
+                        </x-nav-link>
+                    </div>
+                @elseif (auth()->user()->isAdmin())
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('materiais.index')" wire:navigate>
+                            {{ __('Materiais') }}
+                        </x-nav-link>
+                    </div>
+
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('grupos.index')" wire:navigate>
+                            {{ __('Grupos') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
