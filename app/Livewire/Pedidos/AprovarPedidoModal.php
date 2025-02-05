@@ -39,7 +39,7 @@ class AprovarPedidoModal extends Component
     public function aprovarPedido()
     {
         if (!$this->pedido) {
-            session()->flash('error', 'A quantidade deve ser maior que 0');
+            session()->flash('error', 'Pedido informado invalido');
         } else {
             $this->aprovarPedidoUseCase->execute($this->pedido->id);
         }

@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Pedido;
 
+use App\Domain\Enums\StatusPedido;
 use App\Domain\Interfaces\IPedidoRepository;
 
 class RejeitarPedidoUseCase

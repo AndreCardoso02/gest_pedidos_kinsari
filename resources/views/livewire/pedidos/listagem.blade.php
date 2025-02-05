@@ -65,6 +65,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if (auth()->user()->hasRole('aprovador'))
                                         @livewire('pedidos.aprovar-pedido-modal', ['pedido' => $pedido], key($pedido->id))
+                                        @livewire('pedidos.rejeitar-pedido-modal', ['pedido' => $pedido], key($pedido->id))
                                     @endif
                                 </td>
                             </tr>
