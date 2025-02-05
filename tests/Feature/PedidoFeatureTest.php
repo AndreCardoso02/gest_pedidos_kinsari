@@ -177,7 +177,11 @@ class PedidoFeatureTest extends TestCase
         $user->assignRole($role);
 
         $solicitante = User::factory()->create();
-        $grupo = Grupo::factory()->create();
+        $grupo = Grupo::create([
+            'nome' => 'Grupo 1',
+            'saldo_permitido' => 1000,
+            'aprovador_id' => $user->id
+        ]);
 
         $pedido = Pedido::create([
             'total' => 100,
@@ -191,7 +195,7 @@ class PedidoFeatureTest extends TestCase
         $response = $this->actingAs($user, 'web');
 
         // Testando o formulario de aprovacao de pedidos com livewire
-        Livewire::test('pedidos.aprovar-pedido', ['pedidoId' => $pedido->id])
+        Livewire::test('pedidos.aprovar-pedido-modal', ['pedido' => $pedido])
             ->call('aprovarPedido');
 
         // Verificar se o pedido foi aprovado no banco de dados

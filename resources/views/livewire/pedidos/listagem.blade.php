@@ -53,6 +53,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{ $pedido->status }}</div>
                                 </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @livewire('pedidos.aprovar-pedido-modal', ['pedido' => $pedido], key($pedido->id))
+                                </td>
                             </tr>
                         @empty
                             <tr>

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Domain\Models\Pedido;
+use App\Domain\Enums\StatusPedido;
 use App\Domain\Interfaces\IPedidoRepository;
 
 class PedidoRepository extends GenericoRepository implements IPedidoRepository
@@ -39,5 +40,37 @@ class PedidoRepository extends GenericoRepository implements IPedidoRepository
         $registo = $this->buscarPorId($id);
         $registo->delete();
         return true;
+    }
+
+    // Aprovar
+    public function aprovarPedido(int $id){
+        $pedido = $this->buscarPorId($id);
+        $pedido->status = StatusPedido::Aprovado;
+        $pedido->save();
+        return $pedido;
+    }
+
+    // Em revisao
+    public function pedidoEmRevisao(int $id){
+        $pedido = $this->buscarPorId($id);
+        $pedido->status = StatusPedido::EmRevisao;
+        $pedido->save();
+        return $pedido;
+    }
+
+    // Rejeitar
+    public function rejeitarPedido(int $id){
+        $pedido = $this->buscarPorId($id);
+        $pedido->status = StatusPedido::Rejeitado;
+        $pedido->save();
+        return $pedido;
+    }
+
+    // Solicitar alteracao
+    public function solicitarAlteracaoDoPedido(int $id){
+        $pedido = $this->buscarPorId($id);
+        $pedido->status = StatusPedido::AlteracoesSolicitadas;
+        $pedido->save();
+        return $pedido;
     }
 }

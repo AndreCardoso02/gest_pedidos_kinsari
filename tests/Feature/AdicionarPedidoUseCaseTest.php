@@ -77,7 +77,7 @@ class AdicionarPedidoUseCaseTest extends TestCase
 
         // Verificar se o total do pedido está correto
         $totalEsperado = collect($dadosMateriais)->sum(fn ($item) => $item['preco'] * $item['quantidade']);
-        $this->assertEquals($totalEsperado, $pedido->total, '', 0.01); // Tolerância de 0.01
+        $this->assertSame(round($totalEsperado, 2), round($pedido->total, 2)); // Tolerância de 0.01
     }
 }
 
