@@ -257,4 +257,43 @@ class PedidoFeatureTest extends TestCase
             'status' => 'rejeitado'
         ]);
     }
+
+
+    /**
+     * Testando se os utilizadores aprovadores consegues solicitar alteracao pedidos.
+     */
+    public function test_se_os_utilizadores_aprovadores_conseguem_solicitar_alteracao_dos_pedidos() {
+        // Arrange
+        $user = User::factory()->create();
+        $role = Role::create(['name' => 'aprovador']);
+        $user->assignRole($role);
+
+        $solicitante = User::factory()->create();
+        $grupo = Grupo::create([
+            'nome' => 'Grupo 1',
+            'saldo_permitido' => 1000,
+            'aprovador_id' => $user->id
+        ]);
+
+        $pedido = Pedido::create([
+            'total' => 100,
+            'data_criacao' => now(),
+            'data_atualizacao' => now(),
+            'solicitante_id' => $solicitante->id,
+            'grupo_id' => $grupo->id
+        ]);
+
+        // Action: simula autenticacao do utilizador
+        $response = $this->actingAs($user, 'web');
+
+        // Testando o formulario de aprovacao de pedidos com livewire
+        Livewire::test('pedidos.solicitar-alteracao-pedido-modal', ['pedido' => $pedido])
+            ->call('rejeitarPedido');
+
+        // Verificar se o pedido foi aprovado no banco de dados
+        $this->assertDatabaseHas('pedidos', [
+            'id' => $pedido->id,
+            'status' => 'alteracoes_solicitadas'
+        ]);
+    }
 }
