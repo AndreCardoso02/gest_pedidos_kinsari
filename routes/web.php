@@ -5,7 +5,9 @@ use App\Http\Controllers\{
     PedidoController
 };
 
-Route::view('/', 'welcome');
+Route::view('/', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('home');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
