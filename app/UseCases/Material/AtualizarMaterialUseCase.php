@@ -15,6 +15,6 @@ class AtualizarMaterialUseCase
 
     public function execute(int $id, array $data)
     {
-        return $this->materialRepository->atualizar($id, $data);
+        return $this->materialRepository->atualizar($data, $id);
     }
 }

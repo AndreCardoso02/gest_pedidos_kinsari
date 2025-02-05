@@ -27,7 +27,7 @@ class MaterialController extends Controller
      */
     public function show(string $id)
     {
-        return view('material.show');
+        return view('material.show', compact('id'));
     }
 
     /**
@@ -35,6 +35,6 @@ class MaterialController extends Controller
      */
     public function edit(string $id)
     {
-        return view('material.edit');
+        return view('material.edit', compact('id'));
     }
 }
