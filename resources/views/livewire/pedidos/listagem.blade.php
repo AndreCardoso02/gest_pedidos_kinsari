@@ -2,7 +2,6 @@
     <!-- Cria duas colunas uma para o texto e outra para o botao de adicionar -->
     <div class="flex justify-between">
         <div class="mb-4">
-            <h2 class="text-2xl font-semibold leading-tight">Pedidos</h2>
             <h3>Lista de todos os pedidos</h3>
         </div>
 
@@ -11,6 +10,7 @@
                 class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500">Adicionar</a>
         @endif
     </div>
+    <br />
     <div>
         <div class="not-prose isolate">
             <div class="overflow-x-auto">
@@ -72,7 +72,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap" colspan="6">
+                                <td class="px-6 py-4 whitespace-nowrap" colspan="7" align="center">
                                     {{ __('Sem pedidos encontrados') }}
                                 </td>
                             </tr>

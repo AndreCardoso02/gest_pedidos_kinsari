@@ -80,4 +80,17 @@ class User extends Authenticatable
     {
         return $this->hasRole('solicitante');
     }
+
+    // Utilizador e administrador
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+
+    // Utilizador e aprovador
+    public function isAprovador()
+    {
+        return $this->hasRole('aprovador');
+    }
 }

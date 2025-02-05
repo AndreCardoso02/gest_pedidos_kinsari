@@ -7,7 +7,7 @@ use App\Http\Controllers\{
 
 Route::view('/', 'dashboard')
     ->middleware(['auth', 'verified'])
-    ->name('home');
+    ->name('dashboard');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -24,8 +24,7 @@ Route::middleware(['auth'])->group(function () {
 
     // -------------------- ROTAS DE PEDIDOS --------------------
     Route::prefix('pedidos')->group(function () {
-        Route::get('/', [PedidoController::class, 'index'])->name('pedidos.index');
+        Route::get('/', [PedidoController::class, 'index'])->name('pedidos');
         Route::get('/create', [PedidoController::class, 'create'])->name('pedidos.create')->middleware('solicitante');
     });
 });
-
