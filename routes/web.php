@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
     // -------------------- ROTAS DE PEDIDOS --------------------
     Route::prefix('pedidos')->group(function () {
         Route::get('/', [PedidoController::class, 'index'])->name('pedidos.index');
-        Route::get('/create', [PedidoController::class, 'create'])->name('pedidos.create');
+        Route::get('/create', [PedidoController::class, 'create'])->name('pedidos.create')->middleware('solicitante');
     });
 });
 

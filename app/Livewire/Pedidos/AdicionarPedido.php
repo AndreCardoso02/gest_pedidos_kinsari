@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\UseCases\Pedido\AdicionarPedidoUseCase;
 use App\UseCases\Material\ListarMaterialUseCase;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class AdicionarPedido extends Component
 {

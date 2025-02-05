@@ -74,4 +74,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pedido::class, 'solicitante_id');
     }
+
+    // Utilizador e solicitante
+    public function isSolicitante()
+    {
+        return $this->hasRole('solicitante');
+    }
 }

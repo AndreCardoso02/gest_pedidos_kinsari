@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias(['solicitante' => \App\Http\Middleware\Solicitante::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

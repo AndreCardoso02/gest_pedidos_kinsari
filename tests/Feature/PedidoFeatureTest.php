@@ -107,11 +107,6 @@ class PedidoFeatureTest extends TestCase
             'quantidade' => rand(1, 5)
         ])->toArray();
 
-        $dadosPedido = [
-            'solicitante_id' => $user->id,
-            'grupo_id' => $grupo->id
-        ];
-
         // Action: simula autenticacao do utilizador
         $response = $this->actingAs($user, 'web');
 
@@ -163,18 +158,11 @@ class PedidoFeatureTest extends TestCase
             'quantidade' => rand(1, 5)
         ])->toArray();
 
-        $dadosPedido = [
-            'solicitante_id' => $user->id,
-            'grupo_id' => $grupo->id
-        ];
-
         // Action: simula autenticacao do utilizador
-        $response = $this->actingAs($user, 'web');
+        $response = $this->actingAs($user, 'web')->get('/pedidos/create'); // sera redirecionado para a listagem de pedidos
 
-        // Testando o formulario de adicao de pedidos com livewire
-        Livewire::test('pedidos.adicionar-pedido')
-            ->set('materiaisAdicionados', $dadosMateriais)
-            ->call('adicionarPedido')
-            ->assertRedirect('/pedidos'); // sera redirecionado para a listagem de pedidos
+        // Assert
+        $response->assertRedirect('/dashboard');
+        $response->assertSessionHas('error', 'Acesso negado: você não é um solicitante.');
     }
 }
