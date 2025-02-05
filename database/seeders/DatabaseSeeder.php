@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Domain\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\UserSeed;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleAndPermissionSeeder;
 
@@ -21,5 +22,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call(RoleAndPermissionSeeder::class);
+        $this->call(UserSeed::class);
     }
 }
