@@ -20,11 +20,7 @@ new #[Layout('layouts.guest')] class extends Component {
         Session::regenerate();
 
         // se for admin redireciona para o dashboard do admin
-        if (Auth::user()->isAdmin()) {
-            $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: true);
-        } else {
-            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
-        }
+        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
 }; ?>
 

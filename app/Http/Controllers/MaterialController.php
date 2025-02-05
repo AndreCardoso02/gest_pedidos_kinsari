@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PedidoController extends Controller
+class MaterialController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('pedidos.index');
+        return view('material.index');
     }
 
     /**
@@ -19,7 +19,7 @@ class PedidoController extends Controller
      */
     public function create()
     {
-        return view('pedidos.create');
+        return view('material.create');
     }
 
     /**
@@ -27,7 +27,7 @@ class PedidoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('material.show');
     }
 
     /**
@@ -35,6 +35,6 @@ class PedidoController extends Controller
      */
     public function edit(string $id)
     {
-        return view('pedidos.edit');
+        return view('material.edit');
     }
 }
