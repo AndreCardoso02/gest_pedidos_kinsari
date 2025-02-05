@@ -29,12 +29,14 @@
                     <!--body-->
                     <div class="relative p-6 flex-auto">
                         <p class="my-4 text-blueGray-500 text-lg leading-relaxed">
-                            Deseja realmente aprovar o pedido?
+                            Deseja realmente aprovar o pedido no valor de <b>{{ $pedido->total }}</b>?
                         </p>
+                        <small class="text-red-500">O grupo tem um saldo limite de
+                            <b>{{ $pedido->grupo->saldo_permitido }}</b>.</small>
                     </div>
                     <!--footer-->
                     <div class="flex items *:start justify-end p-6 border-t border-solid rounded-b border-blueGray-200">
-                        <button wire:click="closeModal"
+                        <button wire:click="fecharModal"
                             class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                             type="button">
                             Cancelar

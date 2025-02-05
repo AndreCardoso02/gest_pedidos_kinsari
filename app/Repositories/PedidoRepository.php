@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Domain\Models\Grupo;
 use App\Domain\Models\Pedido;
 use App\Domain\Enums\StatusPedido;
 use App\Domain\Interfaces\IPedidoRepository;
@@ -72,5 +73,29 @@ class PedidoRepository extends GenericoRepository implements IPedidoRepository
         $pedido->status = StatusPedido::AlteracoesSolicitadas;
         $pedido->save();
         return $pedido;
+    }
+
+    // Listar pedidos do solicitante
+    public function listarPedidosDoSolicitante(int $solicitanteId) {
+        return Pedido::query()->where('solicitante_id', $solicitanteId)->get();
+    }
+
+    // seleciona todos os grupos do aprovador e em seguida todos os pedidos dos grupos
+    public function listarPedidosDosGruposDoAprovador(int $aprovadorId) {
+        $grupos = Grupo::query()->where('aprovador_id', $aprovadorId)->get();
+        $gruposIds = $grupos->pluck('id');
+        return Pedido::query()
+                        ->whereIn('grupo_id', $gruposIds)
+                        ->orWhere('solicitante_id', $aprovadorId)
+                        ->get();
+    }
+
+    // Listar todos os grupos do solicitante
+    public function listarOsGruposDoSolicitante(int $solicitanteId){
+        return Grupo::query()
+        ->whereHas('solicitante', function ($query) use ($solicitanteId) {
+            $query->where('solicitante_id', $solicitanteId);
+        })
+        ->get();
     }
 }

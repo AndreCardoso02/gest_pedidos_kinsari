@@ -9,4 +9,8 @@ interface IPedidoRepository extends IGenericoRepository
     public function pedidoEmRevisao(int $id);
     public function rejeitarPedido(int $id);
     public function solicitarAlteracaoDoPedido(int $id);
+
+    public function listarPedidosDoSolicitante(int $solicitanteId);
+    public function listarPedidosDosGruposDoAprovador(int $aprovadorId);
+    public function listarOsGruposDoSolicitante(int $solicitanteId);
 }

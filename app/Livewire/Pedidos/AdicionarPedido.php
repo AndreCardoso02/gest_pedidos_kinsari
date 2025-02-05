@@ -62,6 +62,7 @@ class AdicionarPedido extends Component
 
     // adicionar pedido
     public function adicionarPedido() {
+        $this->validate();
         // try {
             $dadosPedido = [
                 'solicitante_id' => Auth::user()->id,
