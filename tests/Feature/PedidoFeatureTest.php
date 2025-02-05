@@ -288,12 +288,52 @@ class PedidoFeatureTest extends TestCase
 
         // Testando o formulario de aprovacao de pedidos com livewire
         Livewire::test('pedidos.solicitar-alteracao-pedido-modal', ['pedido' => $pedido])
-            ->call('rejeitarPedido');
+            ->call('solicitarAlteracaoPedido');
 
         // Verificar se o pedido foi aprovado no banco de dados
         $this->assertDatabaseHas('pedidos', [
             'id' => $pedido->id,
             'status' => 'alteracoes_solicitadas'
+        ]);
+    }
+
+    /**
+     * Testando se os utilizadores solicitantes conseguem alterar depois de solicitada alteracao e se o pedido retorna ao estado novo
+     */
+    public function test_se_os_utilizadores_solicitantes_conseguem_alterar_pedidos_depois_de_solicitada_alteracao() {
+        // Arrange
+        $user = User::factory()->create();
+        $role = Role::create(['name' => 'solicitante']);
+        $user->assignRole($role);
+
+        $aprovador = User::factory()->create();
+        $grupo = Grupo::create([
+            'nome' => 'Grupo 1',
+            'saldo_permitido' => 1000,
+            'aprovador_id' => $aprovador->id
+        ]);
+
+        $pedido = Pedido::create([
+            'total' => 100,
+            'data_criacao' => now(),
+            'data_atualizacao' => now(),
+            'solicitante_id' => $user->id,
+            'grupo_id' => $grupo->id,
+            'status' => 'alteracoes_solicitadas'
+        ]);
+
+        // Action: simula autenticacao do utilizador
+        $response = $this->actingAs($user, 'web');
+
+        // Testando o formulario de aprovacao de pedidos com livewire
+        Livewire::test('pedidos.atualizar-pedido')
+            ->set('pedido', $pedido)
+            ->call('atualizarPedido');
+
+        // Verificar se o pedido foi actualizado no banco de dados
+        $this->assertDatabaseHas('pedidos', [
+            'id' => $pedido->id,
+            'status' => 'novo'
         ]);
     }
 }
