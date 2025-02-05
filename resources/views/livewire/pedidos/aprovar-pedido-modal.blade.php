@@ -1,6 +1,6 @@
 <div>
     <!-- Botao para abrir o modal -->
-    <button wire:click="abrirModal" class="btn btn-primary">Aprovar Pedido</button>
+    <button wire:click="abrirModal" class="btn btn-primary">{{ __('Aprovar Pedido') }}</button>
 
     <!-- Modal -->
     @if ($mostarModal)

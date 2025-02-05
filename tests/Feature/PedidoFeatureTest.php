@@ -204,4 +204,19 @@ class PedidoFeatureTest extends TestCase
             'status' => 'aprovado'
         ]);
     }
+
+    /**
+     * Testando se os utilizadores que nao sejam aprovadores nao conseguem aprovar pedidos.
+     */
+    public function test_se_os_utilizadores_nao_aprovadores_nao_conseguem_aprovar_pedidos() {
+        // Arrange
+        $user = User::factory()->create();
+        $role = Role::create(['name' => 'solicitante']);
+        $user->assignRole($role);
+
+        // Action: simula autenticacao do utilizador
+        $response = $this->actingAs($user, 'web')->get('/pedidos');
+
+        $response->assertDontSee('Aprovar Pedido');
+    }
 }
