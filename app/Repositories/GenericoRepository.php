@@ -8,29 +8,24 @@ use App\Domain\Interfaces\IGenericoRepository;
 // Classe generica para operacoes de crud
 class GenericoRepository implements IGenericoRepository
 {
-    protected Model $model;
-
-    // constructor
-    public function __construct(Model $model) {
-        $this->model = $model;
-    }
+    protected $model;
 
     // Listar
     public function listar()
     {
-        return $this->model->all();
+        return app($this->model)->all();
     }
 
     // Buscar por Id
     public function buscarPorId($id)
     {
-        return $this->model->findOrFail($id);
+        return app($this->model)->findOrFail($id);
     }
 
     // Adicionar
     public function adicionar(array $data)
     {
-        return $this->model->create($data);
+        return app($this->model)->create($data);
     }
 
     // Actualizar

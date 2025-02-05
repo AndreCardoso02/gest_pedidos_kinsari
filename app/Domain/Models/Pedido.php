@@ -41,4 +41,12 @@ class Pedido extends Model
     {
         return $this->belongsTo(Grupo::class, 'grupo_id');
     }
+
+    // Relacionamento com a tabela de materiais
+    public function materiais()
+    {
+        // pedidos_has_materiais tem outros atributos além dos ids (quatidade e subtotal)
+        return $this->belongsToMany(Material::class, 'pedidos_has_materiais')
+            ->withPivot('quantidade', 'subtotal');
+    }
 }

@@ -6,9 +6,11 @@ use App\Repositories\GrupoRepository;
 use App\Repositories\PedidoRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\GenericoRepository;
+use App\Repositories\MaterialRepository;
 use App\Domain\Interfaces\IGrupoRepository;
 use App\Domain\Interfaces\IPedidoRepository;
 use App\Domain\Interfaces\IGenericoRepository;
+use App\Domain\Interfaces\IMaterialRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,5 +32,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IGenericoRepository::class, GenericoRepository::class);
         $this->app->bind(IGrupoRepository::class, GrupoRepository::class);
         $this->app->bind(IPedidoRepository::class, PedidoRepository::class);
+        $this->app->bind(IMaterialRepository::class, MaterialRepository::class);
     }
 }

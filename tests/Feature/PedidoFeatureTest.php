@@ -6,11 +6,14 @@ use Tests\TestCase;
 use App\Domain\Models\{
     User,
     Grupo,
-    Pedido
+    Pedido,
+    Material
 };
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
+use Livewire\Livewire;
 
 class PedidoFeatureTest extends TestCase
 {
@@ -83,31 +86,39 @@ class PedidoFeatureTest extends TestCase
      */
     public function test_se_o_solicitante_consegue_adicionar_pedidos_com_materiais() {
         // Arrange
+        //cria um utilizador com a role solicitante
         $user = User::factory()->create();
         $role = Role::create(['name' => 'solicitante']);
-        $user->assignRole($role); // Utilizador do tipo solicitante
+        $user->assignRole($role);
 
         $grupo = Grupo::factory()->create();
-        $user->solicitante()->create([
-            'grupo_id' => $grupo->id
-        ]); // tornando o utilizador solicitante
+
+        // relaciona o utilizador com o grupo
+        $user->gruposComoSolicitante()->attach($grupo->id);
 
         // Materiais a serem incluidos no pedido
         $materiais = Material::factory()->count(3)->create();
 
         // Dados do pedido (solicitante e grupo devem ser do utilizador logado)
-        $dados = [
-            'materiais' => $materiais->pluck('id')->toArray()
+        // nos dados do pedido devem ser incluidos os materiais e suas quantidades e precos
+        $dadosMateriais = $materiais->map(fn ($material) => [
+            'material_id' => $material->id,
+            'preco' => $material->preco,
+            'quantidade' => rand(1, 5)
+        ])->toArray();
+
+        $dadosPedido = [
+            'solicitante_id' => $user->id,
+            'grupo_id' => $grupo->id
         ];
 
-        // Action
-        $response = $this->actingAs($user)->post('/pedidos', $dados);
+        // Action: simula autenticacao do utilizador
+        $response = $this->actingAs($user, 'web');
 
-        // Assert: verificar se a resposta esta correcta
-        $response->assertStatus(302);
-
-        // Verificar se redirecionou para a listagem de pedidos
-        $response->assertRedirect('/pedidos');
+        // Testando o formulario de adicao de pedidos com livewire
+        Livewire::test('pedidos.adicionar-pedido')
+            ->set('materiaisAdicionados', $dadosMateriais)
+            ->call('adicionarPedido');
 
         // Verificar se o pedido foi adicionado no banco de dados
         $this->assertDatabaseHas('pedidos', [
@@ -115,20 +126,20 @@ class PedidoFeatureTest extends TestCase
             'grupo_id' => $grupo->id
         ]);
 
-        // Verificar se os materiais estao associados ao pedido
+        // Verificar se os materiais estão associados ao pedido
         $pedido = Pedido::where('solicitante_id', $user->id)->first();
         $this->assertNotNull($pedido);
-        $this->assetCount(3, $pedido->materiais);
+        $this->assertCount(3, $pedido->materiais);
 
-        foreach($materiais as $material) {
-            $this->assertDatabaseHas('pedido_has_material', [
+        foreach ($materiais as $material) {
+            $this->assertDatabaseHas('pedidos_has_materiais', [
                 'material_id' => $material->id,
                 'pedido_id' => $pedido->id
             ]);
         }
 
-        // Verificar se o total do pedido esta correcto
-        $total = $materiais->sum('preco');
-        $this->assertEquals($total, $pedido->total);
+        // Verificar se o total do pedido está correto
+        $totalEsperado = collect($dadosMateriais)->sum(fn ($item) => $item['preco'] * $item['quantidade']);
+        $this->assertSame(round($totalEsperado, 2), round($pedido->total, 2)); // Comparando com 2 casas decimais
     }
 }

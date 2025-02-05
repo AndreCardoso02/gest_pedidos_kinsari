@@ -17,7 +17,13 @@ Route::view('profile', 'profile')
 
 require __DIR__.'/auth.php';
 
-// -------------------- ROTAS DE PEDIDOS --------------------
-Route::get('/pedidos', [PedidoController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('pedidos.index');
+// -------------------- ROTAS APENAS PARA UTILIZADORES AUTENTICADOS --------------------
+Route::middleware(['auth'])->group(function () {
+
+    // -------------------- ROTAS DE PEDIDOS --------------------
+    Route::prefix('pedidos')->group(function () {
+        Route::get('/', [PedidoController::class, 'index'])->name('pedidos.index');
+        Route::get('/create', [PedidoController::class, 'create'])->name('pedidos.create');
+    });
+});
+

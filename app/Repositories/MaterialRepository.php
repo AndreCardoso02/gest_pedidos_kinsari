@@ -2,27 +2,27 @@
 
 namespace App\Repositories;
 
-use App\Domain\Models\Pedido;
-use App\Domain\Interfaces\IPedidoRepository;
+use App\Domain\Models\Material;
+use App\Domain\Interfaces\IMaterialRepository;
 
-class PedidoRepository extends GenericoRepository implements IPedidoRepository
+class MaterialRepository implements IMaterialRepository
 {
     // Listar
     public function listar()
     {
-        return Pedido::all();
+        return Material::all();
     }
 
     // Buscar por Id
     public function buscarPorId($id)
     {
-        return Pedido::findOrFail($id);
+        return Material::findOrFail($id);
     }
 
     // Adicionar
     public function adicionar(array $data)
     {
-        return Pedido::create($data);
+        return Material::create($data);
     }
 
     // Actualizar

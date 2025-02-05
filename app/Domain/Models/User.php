@@ -6,14 +6,16 @@ namespace App\Domain\Models;
 use App\Domain\Models\Grupo;
 use App\Domain\Models\Pedido;
 use Database\Factories\UserFactory;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
+    protected $guard_name = 'web';
     /**
      * The attributes that are mass assignable.
      *
@@ -55,9 +57,16 @@ class User extends Authenticatable
     }
 
     // Relacionamento com a tabela de grupos
-    public function grupos()
+    public function gruposComoAprovador()
     {
         return $this->hasMany(Grupo::class, 'aprovador_id');
+    }
+
+    // Relacionamento com a tabela de grupos como solicitantes
+    public function gruposComoSolicitante()
+    {
+        return $this->belongsToMany(Grupo::class, 'solicitantes', 'user_id', 'grupo_id')
+        ->as('solicitantes');
     }
 
     // Relacionamento com a tabela de pedidos

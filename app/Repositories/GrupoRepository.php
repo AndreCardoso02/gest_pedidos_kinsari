@@ -7,9 +7,37 @@ use App\Domain\Interfaces\IGrupoRepository;
 
 class GrupoRepository extends GenericoRepository implements IGrupoRepository
 {
-    public function __construct(Grupo $grupo) {
-        parent::__construct($grupo);
+    // Listar
+    public function listar()
+    {
+        return Grupo::all();
     }
 
-    // Aqui adicionamos metodos especificos para o grupo, se necessario
+    // Buscar por Id
+    public function buscarPorId($id)
+    {
+        return Grupo::findOrFail($id);
+    }
+
+    // Adicionar
+    public function adicionar(array $data)
+    {
+        return Grupo::create($data);
+    }
+
+    // Actualizar
+    public function atualizar(array $data, $id)
+    {
+        $registo = $this->buscarPorId($id);
+        $registo->update($data);
+        return $registo;
+    }
+
+    // Remover
+    public function remover($id)
+    {
+        $registo = $this->buscarPorId($id);
+        $registo->delete();
+        return true;
+    }
 }
