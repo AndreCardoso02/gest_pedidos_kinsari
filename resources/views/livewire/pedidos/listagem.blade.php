@@ -1,4 +1,17 @@
 <div>
+    @if (session('success'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+            class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+            class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Cria duas colunas uma para o texto e outra para o botao de adicionar -->
     <div class="flex justify-between">
         <div class="mb-4">
@@ -47,7 +60,7 @@
                                     <div class="text-sm text-gray-900">{{ $pedido->id }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ $pedido->solicitante->nome }}</div>
+                                    <div class="text-sm text-gray-900">{{ $pedido->solicitante->name }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{ $pedido->grupo->nome }}</div>
@@ -60,13 +73,38 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ $pedido->status }}</div>
+                                    <div class="text-sm text-gray-900">
+                                        @if ($pedido->status->value == 'novo')
+                                            <span
+                                                class="bg-gray-500 text-white text-xs font-semibold px-2 py-1 rounded-full">novo</span>
+                                        @elseif ($pedido->status->value === 'aprovado')
+                                            <span
+                                                class="bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full">aprovado</span>
+                                        @elseif ($pedido->status->value === 'rejeitado')
+                                            <span
+                                                class="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">rejeitado</span>
+                                        @elseif ($pedido->status->value === 'alteracoes_solicitadas')
+                                            <span
+                                                class="bg-yellow-500 text-black text-xs font-semibold px-2 py-1 rounded-full">solicitando
+                                                alteração</span>
+                                        @else
+                                            <span
+                                                class="bg-gray-300 text-black text-xs font-semibold px-2 py-1 rounded-full">status
+                                                indefinido</span>
+                                        @endif
+                                    </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-6 py-4 whitespace-nowrap flex flex-row">
                                     @if (auth()->user()->hasRole('aprovador'))
-                                        @livewire('pedidos.aprovar-pedido-modal', ['pedido' => $pedido], key($pedido->id))
-                                        @livewire('pedidos.rejeitar-pedido-modal', ['pedido' => $pedido], key($pedido->id))
-                                        @livewire('pedidos.solicitar-alteracao-pedido-modal', ['pedido' => $pedido], key($pedido->id))
+                                        @if ($pedido->status->value !== 'aprovado')
+                                            @livewire('pedidos.aprovar-pedido-modal', ['pedido' => $pedido], key($pedido->id))
+                                        @endif
+                                        @if ($pedido->status->value !== 'rejeitado')
+                                            @livewire('pedidos.rejeitar-pedido-modal', ['pedido' => $pedido], key($pedido->id))
+                                        @endif
+                                        @if ($pedido->status->value !== 'alteracoes_solicitadas')
+                                            @livewire('pedidos.solicitar-alteracao-pedido-modal', ['pedido' => $pedido], key($pedido->id))
+                                        @endif
                                     @endif
                                 </td>
                             </tr>

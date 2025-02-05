@@ -11,7 +11,7 @@ class PedidoRepository extends GenericoRepository implements IPedidoRepository
     // Listar
     public function listar()
     {
-        return Pedido::all();
+        return Pedido::query()->with(['solicitante'])->get();
     }
 
     // Buscar por Id

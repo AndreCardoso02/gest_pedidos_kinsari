@@ -42,6 +42,9 @@ class RejeitarPedidoModal extends Component
             session()->flash('error', 'Pedido informado invalido');
         } else {
             $this->rejeitarPedidoUseCase->execute($this->pedido->id);
+            session()->flash('success', 'Pedido rejeitado com sucesso');
         }
+        $this->fecharModal();
+        return redirect()->route('pedidos');
     }
 }

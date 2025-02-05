@@ -1,6 +1,8 @@
 <div>
     <!-- Botao para abrir o modal -->
-    <button wire:click="abrirModal" class="btn btn-primary">{{ __('Rejeitar Pedido') }}</button>
+    <x-danger-button class="ms-3" wire:click="abrirModal">
+        {{ __('Rejeitar') }}
+    </x-danger-button>
 
     <!-- Modal -->
     @if ($mostarModal)

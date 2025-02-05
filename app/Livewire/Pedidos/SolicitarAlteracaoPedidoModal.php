@@ -38,10 +38,17 @@ class SolicitarAlteracaoPedidoModal extends Component
     // Metodo para solicitar alteracao do pedido
     public function solicitarAlteracaoPedido()
     {
-        if (!$this->pedido) {
-            session()->flash('error', 'Pedido informado invalido');
-        } else {
-            $this->solicitarAlteracaoPedidoUseCase->execute($this->pedido->id);
+        try {
+            if (!$this->pedido) {
+                session()->flash('error', 'Pedido informado invalido');
+            } else {
+                $this->solicitarAlteracaoPedidoUseCase->execute($this->pedido->id);
+                session()->flash('success', 'Pedido alterado com sucesso');
+            }
+        } catch (\Throwable $th) {
+            session()->flash('error', $th->getMessage());
         }
+        $this->fecharModal();
+        return redirect()->route('pedidos');
     }
 }

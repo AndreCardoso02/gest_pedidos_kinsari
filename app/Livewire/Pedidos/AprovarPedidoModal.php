@@ -41,7 +41,10 @@ class AprovarPedidoModal extends Component
         if (!$this->pedido) {
             session()->flash('error', 'Pedido informado invalido');
         } else {
+            session()->flash('success', 'Pedido aprovado com sucesso');
             $this->aprovarPedidoUseCase->execute($this->pedido->id);
         }
+        $this->fecharModal();
+        return redirect()->route('pedidos');
     }
 }

@@ -5,6 +5,12 @@
             {{ session('success') }}
         </div>
     @endif
+    @if (session('error'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+            class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
 
 
     <!-- Cria duas colunas uma para o texto e outra para o botao de adicionar -->
