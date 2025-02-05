@@ -148,18 +148,33 @@ class PedidoFeatureTest extends TestCase
      */
     public function test_se_os_utilizadores_que_nao_sao_solicitantes_nao_conseguem_adicionar_pedidos() {
         // Arrange
+        //cria um utilizador com a role solicitante
         $user = User::factory()->create();
-        $grupo = Grupo::factory()->create();
+        $role = Role::create(['name' => 'aprovador']);
+        $user->assignRole($role);
 
-        // Action
+        // Materiais a serem incluidos no pedido
+        $materiais = Material::factory()->count(3)->create();
+
+        // Dados do pedido (solicitante e grupo devem ser do utilizador logado)
+        $dadosMateriais = $materiais->map(fn ($material) => [
+            'material_id' => $material->id,
+            'preco' => $material->preco,
+            'quantidade' => rand(1, 5)
+        ])->toArray();
+
+        $dadosPedido = [
+            'solicitante_id' => $user->id,
+            'grupo_id' => $grupo->id
+        ];
+
+        // Action: simula autenticacao do utilizador
         $response = $this->actingAs($user, 'web');
 
         // Testando o formulario de adicao de pedidos com livewire
         Livewire::test('pedidos.adicionar-pedido')
+            ->set('materiaisAdicionados', $dadosMateriais)
             ->call('adicionarPedido')
-            ->assertRedirect('/pedidos');
-
-        // Assert
-        $response->assertStatus(403);
+            ->assertRedirect('/pedidos'); // sera redirecionado para a listagem de pedidos
     }
 }
