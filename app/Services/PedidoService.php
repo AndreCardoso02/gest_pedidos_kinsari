@@ -40,4 +40,10 @@ class PedidoService {
             ]);
         }
     }
+
+    // remove todos os materiais associados ao pedido
+    public function removerMateriaisDoPedido(Pedido $pedido)
+    {
+        $pedido->materiais()->detach();
+    }
 }

@@ -313,6 +313,16 @@ class PedidoFeatureTest extends TestCase
             'aprovador_id' => $aprovador->id
         ]);
 
+        $pedidosBD = Pedido::create([
+            'total' => 100,
+            'data_criacao' => now(),
+            'data_atualizacao' => now(),
+            'solicitante_id' => $user->id,
+            'grupo_id' => $grupo->id,
+            'status' => 'alteracoes_solicitadas'
+        ]);
+
+        // Pedido a ser editado
         $pedido = Pedido::create([
             'total' => 100,
             'data_criacao' => now(),
@@ -322,12 +332,23 @@ class PedidoFeatureTest extends TestCase
             'status' => 'alteracoes_solicitadas'
         ]);
 
+
+        // Materiais a serem incluidos no pedido
+        $materiais = Material::factory()->count(3)->create();
+
+        // Dados do pedido (solicitante e grupo devem ser do utilizador logado)
+        $dadosMateriais = $materiais->map(fn ($material) => [
+            'material_id' => $material->id,
+            'preco' => $material->preco,
+            'quantidade' => rand(1, 5)
+        ])->toArray();
+
         // Action: simula autenticacao do utilizador
         $response = $this->actingAs($user, 'web');
 
         // Testando o formulario de aprovacao de pedidos com livewire
-        Livewire::test('pedidos.atualizar-pedido')
-            ->set('pedido', $pedido)
+        Livewire::test('pedidos.atualizar-pedido', ['pedidoId' => $pedido->id])
+            ->set('materiaisAdicionados', $dadosMateriais)
             ->call('atualizarPedido');
 
         // Verificar se o pedido foi actualizado no banco de dados

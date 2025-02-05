@@ -1,5 +1,4 @@
 <div>
-    {{-- Lista de materiais --}}
     <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -7,15 +6,15 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col"
+                                <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Material
                                 </th>
-                                <th scope="col"
+                                <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Quantidade
                                 </th>
-                                <th scope="col"
+                                <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Ações
                                 </th>
@@ -33,7 +32,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <button wire:click="adicionarMaterial({{ $material->id }})"
-                                            class="text-indigo-600 hover:text-indigo-900">Adicionar</button>
+                                            class="text-indigo-600 hover:text-indigo-900">Adicionar/Atualizar</button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -42,8 +41,8 @@
                 </div>
             </div>
         </div>
-        <button wire:click="adicionarPedido" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md">
-            Adicionar Pedido
+        <button wire:click="atualizarPedido" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md">
+            Atualizar Pedido
         </button>
     </div>
 </div>
