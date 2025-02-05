@@ -142,4 +142,24 @@ class PedidoFeatureTest extends TestCase
         $totalEsperado = collect($dadosMateriais)->sum(fn ($item) => $item['preco'] * $item['quantidade']);
         $this->assertSame(round($totalEsperado, 2), round($pedido->total, 2)); // Comparando com 2 casas decimais
     }
+
+    /**
+     * Testando se os utilizadores que nao sao solicitantes nao conseguem adicionar pedidos.
+     */
+    public function test_se_os_utilizadores_que_nao_sao_solicitantes_nao_conseguem_adicionar_pedidos() {
+        // Arrange
+        $user = User::factory()->create();
+        $grupo = Grupo::factory()->create();
+
+        // Action
+        $response = $this->actingAs($user, 'web');
+
+        // Testando o formulario de adicao de pedidos com livewire
+        Livewire::test('pedidos.adicionar-pedido')
+            ->call('adicionarPedido')
+            ->assertRedirect('/pedidos');
+
+        // Assert
+        $response->assertStatus(403);
+    }
 }
