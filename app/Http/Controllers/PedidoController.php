@@ -35,6 +35,6 @@ class PedidoController extends Controller
      */
     public function edit(string $id)
     {
-        return view('pedidos.edit');
+        return view('pedidos.edit', compact($id));
     }
 }
