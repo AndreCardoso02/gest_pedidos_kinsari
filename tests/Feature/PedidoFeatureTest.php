@@ -63,7 +63,13 @@ class PedidoFeatureTest extends TestCase
     public function test_utilizador_autenticado_consegue_aceder_a_rota_pedidos_e_visualizar_pedidos() {
         // Arrange
         $solicitante = User::factory()->create();
+        $role = Role::create(['name' => 'solicitante']);
+        $solicitante->assignRole($role);
+
         $grupo = Grupo::factory()->create();
+
+        // relaciona o utilizador com o grupo
+        $solicitante->gruposComoSolicitante()->attach($grupo->id);
 
         $pedidos = Pedido::create([
             'total' => 100,
@@ -111,7 +117,7 @@ class PedidoFeatureTest extends TestCase
         $response = $this->actingAs($user, 'web');
 
         // Testando o formulario de adicao de pedidos com livewire
-        Livewire::test('pedidos.adicionar-pedido', ['grupo_id', $grupo->id])
+        Livewire::test('pedidos.adicionar-pedido', ['grupo_id' => $grupo->id])
             ->set('materiaisAdicionados', $dadosMateriais)
             ->call('adicionarPedido');
 
@@ -347,7 +353,7 @@ class PedidoFeatureTest extends TestCase
         $response = $this->actingAs($user, 'web');
 
         // Testando o formulario de aprovacao de pedidos com livewire
-        Livewire::test('pedidos.atualizar-pedido', ['pedidoId' => $pedido->id])
+        Livewire::test('pedidos.editar-pedido', ['id' => $pedido->id])
             ->set('materiaisAdicionados', $dadosMateriais)
             ->call('atualizarPedido');
 

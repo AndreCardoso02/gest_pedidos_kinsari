@@ -18,7 +18,7 @@
             <h3>Lista de todos os pedidos</h3>
         </div>
 
-        @if (auth()->user()->hasRole('solicitante'))
+        @if (auth()->user()->isSolicitante())
             <a href="{{ route('pedidos.create') }}"
                 class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500">Adicionar</a>
         @endif
@@ -27,7 +27,7 @@
     <div>
         <div class="not-prose isolate">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">

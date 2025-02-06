@@ -39,6 +39,8 @@ class Listagem extends Component
             $this->pedidos = $this->listarUseCase->execute();
             return;
         }
+
+        $this->pedidos = [];
     }
 
     public function render()

@@ -4,6 +4,7 @@ namespace App\Livewire\Pedidos;
 
 use Livewire\Component;
 use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Auth;
 use App\UseCases\Pedido\AtualizarPedidoUseCase;
 use App\UseCases\Material\ListarMaterialUseCase;
 use App\UseCases\Pedido\BuscarPedidoPorIdUseCase;
@@ -48,6 +49,7 @@ class EditarPedido extends Component
     public function mount($id)
     {
         $this->pedido = $this->useCase->execute($id);
+        $this->grupo_id = $this->pedido->grupo_id;
         $this->materiais = $this->listarMaterialUseCase->execute();
         $this->grupos = $this->listarGrupoUseCase->execute(Auth::user()->id);
     }
@@ -85,7 +87,7 @@ class EditarPedido extends Component
     }
 
     // atualizar pedido
-    public function actualizarPedido() {
+    public function atualizarPedido() {
 
         $this->validate();
 
