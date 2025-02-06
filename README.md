@@ -140,6 +140,23 @@ Os testes abrangem:
 - Testes Unitários: Validação de regras de negócio e serviços.
 - Testes de Feature: Verificação de integração de múltiplos componentes.
 
+
+## Utilizadores do sistema
+
+Ao executar executar a aplicacao alguns utilizadores ja serão inseridos por padrão 
+```bash
+Username: admin@kinsari.com
+Password: AAaa123#
+
+
+Username: aprovador@kinsari.com
+Password: AAaa123#
+
+
+Username: solicitantes@kinsari.com
+Password: AAaa123#
+```
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
