@@ -87,7 +87,7 @@ class EditarPedido extends Component
     }
 
     // atualizar pedido
-    public function atualizarPedido() {
+    public function actualizarPedido() {
 
         $this->validate();
 
