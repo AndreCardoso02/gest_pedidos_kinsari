@@ -93,8 +93,8 @@ class PedidoRepository extends GenericoRepository implements IPedidoRepository
     // Listar todos os grupos do solicitante
     public function listarOsGruposDoSolicitante(int $solicitanteId){
         return Grupo::query()
-        ->whereHas('solicitante', function ($query) use ($solicitanteId) {
-            $query->where('solicitante_id', $solicitanteId);
+        ->whereHas('solicitantes', function ($query) use ($solicitanteId) {
+            $query->where('user_id', $solicitanteId);
         })
         ->get();
     }

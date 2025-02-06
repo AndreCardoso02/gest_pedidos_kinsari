@@ -38,11 +38,15 @@ class AprovarPedidoModal extends Component
     // Metodo para aprovar o pedido
     public function aprovarPedido()
     {
-        if (!$this->pedido) {
-            session()->flash('error', 'Pedido informado invalido');
-        } else {
-            session()->flash('success', 'Pedido aprovado com sucesso');
-            $this->aprovarPedidoUseCase->execute($this->pedido->id);
+        try {
+            if (!$this->pedido) {
+                session()->flash('error', 'Pedido informado invalido');
+            } else {
+                $this->aprovarPedidoUseCase->execute($this->pedido->id);
+                session()->flash('success', 'Pedido aprovado com sucesso');
+            }
+        } catch (\Throwable $th) {
+            session()->flash('error', $th->getMessage());
         }
         $this->fecharModal();
         return redirect()->route('pedidos');

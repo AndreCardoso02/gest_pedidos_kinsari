@@ -32,9 +32,9 @@ class Grupo extends Model
     }
 
     // Relacionamento com a tabela de user como solicitante
-    public function userSolicitantes()
+    public function solicitantes()
     {
-        return $this->belongsToMany(User::class, 'solicitantes', 'user_id', 'grupo_id')
+        return $this->belongsToMany(User::class, 'solicitantes', 'grupo_id', 'user_id')
         ->as('solicitantes');
     }
 }

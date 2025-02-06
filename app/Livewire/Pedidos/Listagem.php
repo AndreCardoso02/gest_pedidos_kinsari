@@ -45,4 +45,9 @@ class Listagem extends Component
     {
         return view('livewire.pedidos.listagem');
     }
+
+    // editar pedido
+    public function editar($id) {
+        return redirect()->route('pedidos.edit', ['id' => $id]);
+    }
 }

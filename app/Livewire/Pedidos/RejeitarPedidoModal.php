@@ -38,11 +38,15 @@ class RejeitarPedidoModal extends Component
     // Metodo para rejeitar o pedido
     public function rejeitarPedido()
     {
-        if (!$this->pedido) {
-            session()->flash('error', 'Pedido informado invalido');
-        } else {
-            $this->rejeitarPedidoUseCase->execute($this->pedido->id);
-            session()->flash('success', 'Pedido rejeitado com sucesso');
+        try {
+            if (!$this->pedido) {
+                session()->flash('error', 'Pedido informado invalido');
+            } else {
+                $this->rejeitarPedidoUseCase->execute($this->pedido->id);
+                session()->flash('success', 'Pedido rejeitado com sucesso');
+            }
+        } catch (\Throwable $th) {
+            session()->flash('error', $th->getMessage());
         }
         $this->fecharModal();
         return redirect()->route('pedidos');

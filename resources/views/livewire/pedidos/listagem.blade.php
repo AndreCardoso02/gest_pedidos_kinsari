@@ -95,7 +95,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap flex flex-row">
-                                    @if (auth()->user()->hasRole('aprovador'))
+                                    @if (auth()->user()->isAprovador())
                                         @if ($pedido->status->value !== 'aprovado')
                                             @livewire('pedidos.aprovar-pedido-modal', ['pedido' => $pedido], key($pedido->id))
                                         @endif
@@ -104,6 +104,12 @@
                                         @endif
                                         @if ($pedido->status->value !== 'alteracoes_solicitadas')
                                             @livewire('pedidos.solicitar-alteracao-pedido-modal', ['pedido' => $pedido], key($pedido->id))
+                                        @endif
+                                    @elseif (auth()->user()->isSolicitante())
+                                        @if ($pedido->status->value === 'alteracoes_solicitadas')
+                                            <x-primary-button class="ms-3" wire:click="editar({{ $pedido->id }})">
+                                                {{ __('Editar') }}
+                                            </x-primary-button>
                                         @endif
                                     @endif
                                 </td>
