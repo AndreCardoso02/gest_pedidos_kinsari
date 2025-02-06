@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Domain\Models\User;
+use App\Domain\Models\Grupo;
+use App\Domain\Models\Material;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -34,5 +36,23 @@ class UserSeed extends Seeder
         $admin->assignRole('admin');
         $solicitante->assignRole('solicitante');
         $aprovador->assignRole('aprovador');
+
+        $grupo = Grupo::create([
+            'nome' => 'Default',
+            'saldo_permitido' => 1000,
+            'aprovador_id' => $aprovador->id
+        ]);
+
+        $solicitante->gruposComoSolicitante()->attach($grupo->id);
+
+        $materiais = Material::create([
+            'nome' => 'Computador',
+            'preco' => 209
+        ]);
+
+        $materiais = Material::create([
+            'nome' => 'Monitor',
+            'preco' => 100
+        ]);
     }
 }

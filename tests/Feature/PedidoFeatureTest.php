@@ -111,7 +111,7 @@ class PedidoFeatureTest extends TestCase
         $response = $this->actingAs($user, 'web');
 
         // Testando o formulario de adicao de pedidos com livewire
-        Livewire::test('pedidos.adicionar-pedido')
+        Livewire::test('pedidos.adicionar-pedido', ['grupo_id', $grupo->id])
             ->set('materiaisAdicionados', $dadosMateriais)
             ->call('adicionarPedido');
 
